@@ -5,10 +5,10 @@
  */
 
 
-package com.sapient.reps.api;
+package com.sapient.healthyreps.controller;
 
 
-import com.sapient.reps.login.Register;
+import com.sapient.healthyreps.login.Register;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

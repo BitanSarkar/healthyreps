@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.reps.exceptions;
+package com.sapient.healthyreps.exceptions;
 
 public class InvalidImageIdException extends Exception {
     public InvalidImageIdException(String ex) {

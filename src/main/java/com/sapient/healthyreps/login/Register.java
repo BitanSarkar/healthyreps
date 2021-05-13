@@ -4,15 +4,14 @@
  * @version 1.0
  */
 
-package com.sapient.reps.login;
+package com.sapient.healthyreps.login;
 
 import java.util.Base64;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sapient.reps.dao.UserRegister;
-import com.sapient.reps.exceptions.EmptyUsernameException;
-import com.sapient.reps.exceptions.InvalidEmailException;
-import com.sapient.reps.exceptions.PasswordMisMatchException;
+import com.sapient.healthyreps.dao.UserRegister;
+import com.sapient.healthyreps.exceptions.EmptyUsernameException;
+import com.sapient.healthyreps.exceptions.InvalidEmailException;
+import com.sapient.healthyreps.exceptions.PasswordMisMatchException;
 public class Register {
     private String uname;
     private String email;

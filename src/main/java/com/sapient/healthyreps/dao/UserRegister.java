@@ -4,13 +4,13 @@
  * @version 1.0
  */
 
-package com.sapient.reps.dao;
+package com.sapient.healthyreps.dao;
 
 
-import com.sapient.reps.dbs.ConnectionManager;
-import com.sapient.reps.dbs.DatabaseManager;
-import com.sapient.reps.exceptions.DuplicateEmailException;
-import com.sapient.reps.exceptions.DuplicateUsernameException;
+import com.sapient.healthyreps.dbs.ConnectionManager;
+import com.sapient.healthyreps.dbs.DatabaseManager;
+import com.sapient.healthyreps.exceptions.DuplicateEmailException;
+import com.sapient.healthyreps.exceptions.DuplicateUsernameException;
 
 import javax.persistence.*;
 import javax.persistence.Id;
@@ -19,7 +19,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 
-import static com.sapient.reps.dbs.DatabaseManager.getQuery;
+import static com.sapient.healthyreps.dbs.DatabaseManager.getQuery;
 
 @Entity
 @Table(name = "user_register")

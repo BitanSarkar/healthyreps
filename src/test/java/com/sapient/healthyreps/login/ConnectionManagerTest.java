@@ -1,8 +1,8 @@
-package com.sapient.reps.login;
+package com.sapient.healthyreps.login;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import com.sapient.reps.dbs.ConnectionManager;
+import com.sapient.healthyreps.dbs.ConnectionManager;
 
 import java.sql.Connection;
 

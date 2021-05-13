@@ -5,7 +5,7 @@
  */
 
 
-package com.sapient.reps.exceptions;
+package com.sapient.healthyreps.exceptions;
 
 public class DuplicateUsernameException extends Exception {
     public DuplicateUsernameException(String ex) {

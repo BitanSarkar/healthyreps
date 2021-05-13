@@ -4,7 +4,7 @@
  * @date 10-05-2021 15:53
  * @version 1.0
  */
-package com.sapient.reps.dbs;
+package com.sapient.healthyreps.dbs;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.reps.exceptions;
+package com.sapient.healthyreps.exceptions;
 
 public class EmptyUsernameException extends Exception {
     public EmptyUsernameException(String ex) {

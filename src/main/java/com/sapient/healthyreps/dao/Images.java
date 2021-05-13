@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.reps.dao;
+package com.sapient.healthyreps.dao;
 
 
 
@@ -13,11 +13,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
-import com.sapient.reps.dbs.ConnectionManager;
-import com.sapient.reps.dbs.DatabaseManager;
-import com.sapient.reps.exceptions.InvalidImageIdException;
-import com.sapient.reps.exceptions.InvalidImageUrlException;
-import com.sapient.reps.exceptions.InvalidUserIdException;
+import com.sapient.healthyreps.dbs.ConnectionManager;
+import com.sapient.healthyreps.dbs.DatabaseManager;
+import com.sapient.healthyreps.exceptions.InvalidImageIdException;
+import com.sapient.healthyreps.exceptions.InvalidImageUrlException;
+import com.sapient.healthyreps.exceptions.InvalidUserIdException;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

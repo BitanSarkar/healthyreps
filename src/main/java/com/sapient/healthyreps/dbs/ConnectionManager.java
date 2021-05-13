@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.reps.dbs;
+package com.sapient.healthyreps.dbs;
 
 import java.util.*;
 import java.io.*;

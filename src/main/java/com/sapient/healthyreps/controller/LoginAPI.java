@@ -4,10 +4,10 @@
  * @version 1.0
  */
 
-package com.sapient.reps.api;
+package com.sapient.healthyreps.controller;
 
 
-import com.sapient.reps.dao.UserRegister;
+import com.sapient.healthyreps.dao.UserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;

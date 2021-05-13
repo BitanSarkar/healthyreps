@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.reps.login;
+package com.sapient.healthyreps.login;
 
 public class Login {
 

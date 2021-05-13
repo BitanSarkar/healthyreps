@@ -1,6 +1,6 @@
-package com.sapient.reps.api;
+package com.sapient.healthyreps.controller;
 
-import com.sapient.reps.dao.UserRegister;
+import com.sapient.healthyreps.dao.UserRegister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.*;
