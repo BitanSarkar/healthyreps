@@ -15,6 +15,6 @@ public class RegisterTest {
         String pass2 = "123456";
         Register reg = new Register(uname, email, pass1, pass2);
         int status = reg.reg();
-        assertEquals(status, 0);
+        assertEquals(status, 1);
     }
 }

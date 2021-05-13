@@ -7,25 +7,43 @@
 package com.sapient.reps.login;
 
 import java.util.Base64;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sapient.reps.dao.UserRegister;
 import com.sapient.reps.exceptions.EmptyUsernameException;
 import com.sapient.reps.exceptions.InvalidEmailException;
 import com.sapient.reps.exceptions.PasswordMisMatchException;
 public class Register {
-
     private String uname;
     private String email;
     private String pass1;
     private String pass2;
 
-//    public Register() {
-//
-//    }
+    public Register() {
+        super();
+    }
+
     public Register(String uname, String email, String pass1, String pass2) {
+        super();
         this.uname = uname;
         this.email = email;
         this.pass1 = pass1;
         this.pass2 = pass2;
+    }
+
+    public void setPass1(String pass1) {
+        this.pass1 = pass1;
+    }
+
+    public void setPass2(String pass2) {
+        this.pass2 = pass2;
+    }
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     public int reg() throws Exception {
         if (!pass1.equals(pass2))

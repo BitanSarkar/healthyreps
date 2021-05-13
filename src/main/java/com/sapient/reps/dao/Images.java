@@ -18,22 +18,38 @@ import com.sapient.reps.dbs.DatabaseManager;
 import com.sapient.reps.exceptions.InvalidImageIdException;
 import com.sapient.reps.exceptions.InvalidImageUrlException;
 import com.sapient.reps.exceptions.InvalidUserIdException;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "gallery")
 public class Images {
-    int imageId=-1;
+    private Long imageId= (long) -1;
     int userId=-1;
     String imageUrl="";
     Connection conn = ConnectionManager.getConnection();
 
+    public Images() throws Exception {
+        super();
+    }
+
     public Images(int _userId) throws Exception {
+        super();
         userId = _userId;
     }
 
     public Images(int _userId, String _imageUrl) throws Exception {
+        super();
         imageUrl = _imageUrl;
         userId = _userId;
     }
 
-    public List<Map<String, Object>> getByUserId() throws Exception {
+
+
+
+    public List<Map<String, Object>> queryByUserId() throws Exception {
         if(userId == -1) throw new InvalidUserIdException(userId + " is invalid");
         PreparedStatement pst = conn.prepareStatement(
                 "SELECT (imageId, imageUrl) from Images where UserId=?"
@@ -47,7 +63,7 @@ public class Images {
         PreparedStatement pst = conn.prepareStatement(
                 "DELETE FROM IMAGES WHERE IMAGEID=?"
         );
-        pst.setInt(1, imageId);
+        pst.setLong(1, imageId);
         return DatabaseManager.modify(pst);
     }
 
@@ -70,4 +86,16 @@ public class Images {
         pst.setString(2, imageUrl);
         return DatabaseManager.modify(pst);
     }
+
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+    public void setImageUrl(String url) {
+        this.imageUrl = url;
+    }
+    public int getUserId() { return userId; }
+    public void setImageId(Long imageId) { this.imageId = imageId; }
+    @Id
+    public Long getImageId() { return imageId; }
 }

@@ -33,13 +33,17 @@ public class Profile {
     String plans;                      // Some like premium, gold etc.
     Connection conn = ConnectionManager.getConnection();
 
-
+    public Profile() throws Exception {
+        super();
+    }
 
     public Profile(int _userId) throws Exception {
+        super();
         userId = _userId;
     }
 
     public Profile(Map<String, Object> arg) throws Exception {
+        super();
         for(Map.Entry<String, Object> entry : arg.entrySet()) {
             String key = entry.getKey();
             Object val = entry.getValue();
@@ -62,6 +66,126 @@ public class Profile {
                 case "plans" -> plans = (String) val;
             }
         }
+    }
+
+    public void setAccessType(String accessType) {
+        this.accessType = accessType;
+    }
+
+    public String getAccessType() {
+        return accessType;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setProfileImageId(Integer profileImageId) {
+        this.profileImageId = profileImageId;
+    }
+
+    public Integer getProfileImageId() {
+        return profileImageId;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setGender(Character gender) {
+        this.gender = gender;
+    }
+
+    public Character getGender() {
+        return gender;
+    }
+
+    public void setGoalWeight(Integer goalWeight) {
+        this.goalWeight = goalWeight;
+    }
+
+    public Integer getGoalWeight() {
+        return goalWeight;
+    }
+
+    public void setPlanDuration(Integer planDuration) {
+        this.planDuration = planDuration;
+    }
+
+    public Integer getPlanDuration() {
+        return planDuration;
+    }
+
+    public void setStars(Float stars) {
+        this.stars = stars;
+    }
+
+    public Float getStars() {
+        return stars;
+    }
+
+    public void setPlans(String plans) {
+        this.plans = plans;
+    }
+
+    public String getPlans() {
+        return plans;
     }
 
     public int deleteByUserId() throws Exception{
