@@ -8,21 +8,26 @@
 
 package com.sapient.healthyreps.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.List;
-import java.util.Map;
-import com.sapient.healthyreps.dbs.ConnectionManager;
-import com.sapient.healthyreps.dbs.DatabaseManager;
-import com.sapient.healthyreps.exceptions.InvalidSocialMediaException;
+import java.sql.*;
+import java.util.*;
+import javax.persistence.*;
+import com.sapient.healthyreps.dbs.*;
 import com.sapient.healthyreps.exceptions.InvalidUserIdException;
+import com.sapient.healthyreps.exceptions.InvalidSocialMediaException;
 
+
+
+@Entity
+@Table(name="social_media")
 public class SocialMedia {
     int userId = -1;
-    String type = ""; // like twitter, insta, etc.
+    @Column(name = "type", nullable = false)
+    String name = ""; // like twitter, insta, etc.
+    @Column(name = "url", nullable = false)
     String url = ""; // url to that Media;
-    Connection conn = ConnectionManager.getConnection();
-    List<String> medium = List.of("Twitter", "Facebook", "Twitch", "Instagram");
+    private Long id;
+    @Transient
+    private List<String> medium = Arrays.asList("facebook", "twitter", "instagram");
 
     public SocialMedia() throws Exception {
         super();
@@ -33,17 +38,17 @@ public class SocialMedia {
         userId = id;
     }
 
-    public SocialMedia(int id, String _type, String _url) throws Exception {
+    public SocialMedia(int id, String _name, String _url) throws Exception {
         super();
         userId = id;
-        type = _type;
+        name = _name;
         url = _url;
     }
 
-    public SocialMedia(int id, String _type) throws Exception {
+    public SocialMedia(int id, String _name) throws Exception {
         super();
         userId = id;
-        type = _type;
+        name = _name;
     }
 
     public void setUserId(int userId) {
@@ -62,55 +67,72 @@ public class SocialMedia {
         return url;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public List<Map<String, Object>> getUrlById() throws Exception {
+    public List<Map<String, Object>> queryUrlById() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if (userId == -1) {
             throw new InvalidUserIdException("UserId is not valid or not set");
         }
         PreparedStatement pst =
-                conn.prepareStatement("SELECT (type, url) from socialmedia where userid=?");
+                conn.prepareStatement("SELECT (name, url) from socialmedia where userid=?");
         pst.setInt(1, userId);
-        return DatabaseManager.getQuery(pst);
+        List<Map<String, Object>> result = DatabaseManager.getQuery(pst);
+        conn.close();
+        return result;
     }
 
-    public List<Map<String, Object>> getUrlByIdMedium() throws Exception {
+    public List<Map<String, Object>> queryUrlByIdMedium() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if (userId == -1) {
             throw new InvalidUserIdException("UserId is not valid or not set");
         }
-        if (!medium.contains(type)) {
-            throw new InvalidSocialMediaException(type + " is not allowed");
+        if (!medium.contains(name)) {
+            throw new InvalidSocialMediaException(name + " is not allowed");
         }
         PreparedStatement pst = conn
-                .prepareStatement("SELECT (type, url) from SOCIALMEDIA where userid=? and type=?");
+                .prepareStatement("SELECT (name, url) from SOCIALMEDIA where userid=? and name=?");
         pst.setInt(1, userId);
-        pst.setString(2, type);
-        return DatabaseManager.getQuery(pst);
+        pst.setString(2, name);
+        List<Map<String, Object>> result = DatabaseManager.getQuery(pst);
+        conn.close();
+        return result;
     }
 
     public int upsert() throws Exception {
-        if (getUrlByIdMedium().size() == 0) {
+        Connection conn = ConnectionManager.getConnection();
+        if (queryUrlByIdMedium().size() == 0) {
             PreparedStatement pst = conn.prepareStatement(
-                    "INSERT INTO SOCIALMEDIA (userid, type, url) values (?, ?, ?)");
+                    "INSERT INTO SOCIALMEDIA (userid, name, url) values (?, ?, ?)");
             pst.setInt(1, userId);
-            pst.setString(2, type);
+            pst.setString(2, name);
             pst.setString(3, url);
             return DatabaseManager.modify(pst);
         }
         PreparedStatement pst =
-                conn.prepareStatement("UPDATE SOCIALMEDIA SET URL=? WHERE USERID=? and TYPE=?");
+                conn.prepareStatement("UPDATE SOCIALMEDIA SET URL=? WHERE USERID=? and name=?");
 
         pst.setString(1, url);
         pst.setInt(2, userId);
-        pst.setString(3, type);
-        return DatabaseManager.modify(pst);
+        pst.setString(3, name);
+        int result = DatabaseManager.modify(pst);
+        conn.close();
+        return result;
     }
 
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Id
+    public Long getId() {
+        return id;
+    }
 }

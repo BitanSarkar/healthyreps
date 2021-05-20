@@ -1,4 +1,4 @@
-/**
+/*
  * @author GauravismPS
  * @date 13-05-2021 23:12
  * @version 1.0
@@ -7,45 +7,63 @@
 package com.sapient.healthyreps.controller;
 
 
-import com.sapient.healthyreps.dao.UserRegister;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import java.util.*;
 import javax.validation.Valid;
-import java.util.List;
+import com.sapient.healthyreps.dao.User;
+import com.sapient.healthyreps.exceptions.PasswordMisMatchException;
+import org.springframework.web.bind.annotation.*;
+import com.sapient.healthyreps.utils.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/login")
 public class LoginAPI {
 
     @GetMapping
-    public String health() throws Exception {
+    public String health() {
         return "Ready to logIn users";
     }
 
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/loginuser")
-    public String logIn(@Valid @RequestBody UserRegister user) throws Exception {
-        List<UserRegister> users = userRepository.findByUserName(user.getUserName());
-        for(UserRegister candidate : users) {
-            if(candidate.getPassWord().equals(user.getPassWord())) {
-                candidate.setLoggedIn(true);
-                userRepository.save(candidate);
-                return "SUCCESS";
+    @PostMapping("/user")
+    public String logIn(@Valid @RequestBody User user) throws Exception {
+        Optional<User> _user = userRepository.findByUserName(user.getUserName());
+        _user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + user.getUserName()));
+        User newUser = _user.orElse(null);
+        if(newUser.getPassWord().equals(new String(Base64.getEncoder().encode(user.getPassWord().getBytes())))) {
+            try {
+                newUser.setLoggedIn(true);
+                userRepository.save(newUser);
+                return "SUCCESS" + newUser.getUserName();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
+        else throw new PasswordMisMatchException("Wrong Password");
+//        return newUser.getPassWord() + " " + user.getPassWord();
         return "FAILED";
     }
 
+
+
     @PostMapping("/logoutuser")
-    public String logOut(@Valid @RequestBody UserRegister user) throws Exception {
-        List<UserRegister> users = userRepository.findByUserName(user.getUserName());
-        for(UserRegister candidate : users) {
-            user.setLoggedIn(false);
-            userRepository.save(user);
+    public String logOut(@Valid @RequestBody User user) throws Exception {
+        Optional<User> _user = userRepository.findByUserName(user.getUserName());
+        _user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + user.getUserName()));
+        User newUser = _user.orElse(null);
+        try {
+            newUser.setLoggedIn(false);
+            userRepository.save(newUser);
             return "SUCCESS";
         }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return "FAILED";
+
     }
 }

@@ -8,13 +8,15 @@ package com.sapient.healthyreps.dao;
 
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.Map;
-import com.sapient.healthyreps.dbs.ConnectionManager;
-import com.sapient.healthyreps.dbs.DatabaseManager;
-import com.sapient.healthyreps.exceptions.InvalidUserIdException;
+import java.sql.*;
+import java.util.*;
+import javax.persistence.*;
+import com.sapient.healthyreps.dbs.*;
+import com.sapient.healthyreps.exceptions.*;
 
+
+@Entity
+@Table(name="profile")
 public class Profile {
     Integer userId;
     Integer profileImageId;
@@ -31,7 +33,7 @@ public class Profile {
     String accessType;                 // User, Trainer, Admin etc.
     Float stars;                       // User Rating
     String plans;                      // Some like premium, gold etc.
-    Connection conn = ConnectionManager.getConnection();
+    private Long profileId;
 
     public Profile() throws Exception {
         super();
@@ -189,12 +191,23 @@ public class Profile {
     }
 
     public int deleteByUserId() throws Exception{
+        Connection conn = ConnectionManager.getConnection();
         if(userId == -1) throw new InvalidUserIdException(userId + " is not a valid userId");
         PreparedStatement pst = conn.prepareStatement(
                 "DELETE FROM PROFILE WHERE USERID=?"
         );
         pst.setInt(1, userId);
-        return DatabaseManager.modify(pst);
+        int result = DatabaseManager.modify(pst);
+        conn.close();
+        return result;
     }
 
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    @Id
+    public Long getProfileId() {
+        return profileId;
+    }
 }

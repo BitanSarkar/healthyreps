@@ -19,17 +19,18 @@ import com.sapient.healthyreps.exceptions.InvalidImageIdException;
 import com.sapient.healthyreps.exceptions.InvalidImageUrlException;
 import com.sapient.healthyreps.exceptions.InvalidUserIdException;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "gallery")
 public class Images {
     private Long imageId= (long) -1;
     int userId=-1;
-    String imageUrl="";
-    Connection conn = ConnectionManager.getConnection();
+    @Column(name = "image_url")
+    String imageUrl;
+
+
 
     public Images() throws Exception {
         super();
@@ -50,41 +51,53 @@ public class Images {
 
 
     public List<Map<String, Object>> queryByUserId() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if(userId == -1) throw new InvalidUserIdException(userId + " is invalid");
         PreparedStatement pst = conn.prepareStatement(
                 "SELECT (imageId, imageUrl) from Images where UserId=?"
         );
         pst.setInt(1, userId);
-        return DatabaseManager.getQuery(pst);
+        List<Map<String, Object>> result = DatabaseManager.getQuery(pst);
+        conn.close();
+        return result;
     }
 
     public int deleteByImageId() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if(imageId == -1) throw new InvalidImageIdException(imageId + " is not a valid Image Id");
         PreparedStatement pst = conn.prepareStatement(
                 "DELETE FROM IMAGES WHERE IMAGEID=?"
         );
         pst.setLong(1, imageId);
-        return DatabaseManager.modify(pst);
+        int result = DatabaseManager.modify(pst);
+        conn.close();
+        return result;
     }
 
     public int deleteByUserId() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if(userId == -1) throw new InvalidUserIdException(userId + " is invalid");
         PreparedStatement pst = conn.prepareStatement(
                 "DELETE FROM IMAGES WHERE USERID=?"
         );
         pst.setInt(1, userId);
-        return DatabaseManager.modify(pst);
+        int result = DatabaseManager.modify(pst);
+        conn.close();
+        return result;
     }
 
     public int insertImage() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         if(userId == -1) throw new InvalidUserIdException(userId + " is invalid");
-        if(imageUrl.equals("")) throw new InvalidImageUrlException(imageUrl + " is invalid");
+        if(imageUrl == null || imageUrl.equals("")) throw new InvalidImageUrlException(imageUrl + " is invalid");
         PreparedStatement pst = conn.prepareStatement(
                 "INSERT INTO (userId, imageUrl) values(?, ?)"
         );
         pst.setInt(1, userId);
         pst.setString(2, imageUrl);
-        return DatabaseManager.modify(pst);
+        int result = DatabaseManager.modify(pst);
+        conn.close();
+        return result;
     }
 
 

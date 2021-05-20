@@ -22,8 +22,7 @@ public class DatabaseManager {
     public static List<Map<String, Object>> getQuery(String query) throws Exception {
 
 
-        Connection conn = ConnectionManager.getConnection();
-        try (Statement smt = conn.createStatement()) {
+        try (Connection conn = ConnectionManager.getConnection(); Statement smt = conn.createStatement()) {
             ResultSet rst = smt.executeQuery(query);
             return convertResultSetToList(rst);
 
@@ -64,6 +63,7 @@ public class DatabaseManager {
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
+
         return null;
     }
 
@@ -79,6 +79,9 @@ public class DatabaseManager {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
+        }
+        finally {
+            conn.close();
         }
         return count;
     }

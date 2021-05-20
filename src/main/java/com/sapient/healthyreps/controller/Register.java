@@ -4,14 +4,16 @@
  * @version 1.0
  */
 
-package com.sapient.healthyreps.login;
+package com.sapient.healthyreps.controller;
 
 import java.util.Base64;
 
-import com.sapient.healthyreps.dao.UserRegister;
+import com.sapient.healthyreps.dao.User;
 import com.sapient.healthyreps.exceptions.EmptyUsernameException;
 import com.sapient.healthyreps.exceptions.InvalidEmailException;
 import com.sapient.healthyreps.exceptions.PasswordMisMatchException;
+import com.sapient.healthyreps.utils.EmailValidator;
+
 public class Register {
     private String uname;
     private String email;
@@ -52,12 +54,12 @@ public class Register {
         if (uname.isEmpty())
             throw new EmptyUsernameException("Username is Empty");
         pass1 = new String(Base64.getEncoder().encode(pass1.getBytes()));
-        UserRegister _reg = new UserRegister(uname, email, pass1);
+        User _reg = new User(uname, email, pass1);
         return _reg.Register();
 //        Connection conn = ConnectionManager.getConnection();
 
 //        pst = conn.prepareStatement(
-//                "INSERT INTO UserRegister (username, emailid, password) values (?, ?, ?)");
+//                "INSERT INTO User (username, emailid, password) values (?, ?, ?)");
 //        pst.setString(1, uname);
 //        pst.setString(2, email);
 //        pst.setString(3, pass1);

@@ -1,12 +1,13 @@
-package com.sapient.reps.login;
+package com.sapient.healthyreps.LoginTest;
 
 
-import org.junit.jupiter.api.Test;
+import com.sapient.healthyreps.controller.Register;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterTest {
     
-    @Test
+    // @Test
     public void RegTest() throws Exception {
 
         String uname = "Zeref";

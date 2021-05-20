@@ -1,10 +1,10 @@
-package com.sapient.reps.api;
+package com.sapient.healthyreps;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiApplicationTests {
+class HealthyrepsApplicationTests {
 
     @Test
     void contextLoads() {

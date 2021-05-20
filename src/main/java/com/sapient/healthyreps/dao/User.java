@@ -23,15 +23,15 @@ import static com.sapient.healthyreps.dbs.DatabaseManager.getQuery;
 
 @Entity
 @Table(name = "user_register")
-public class UserRegister {
+public class User {
     private Long userId;
     String userName;
     String emailId;
     String passWord;
     Boolean isLoggedIn;
-    Connection conn = ConnectionManager.getConnection();
 
-    public UserRegister(String uname, String email, String pass) throws Exception {
+
+    public User(String uname, String email, String pass) throws Exception {
         userName = uname;
         emailId = email;
         passWord = pass;
@@ -43,11 +43,11 @@ public class UserRegister {
         }
 
     }
-    public UserRegister() throws Exception {
+    public User() throws Exception {
         super();
     }
 
-    public UserRegister(String uname, String pass) throws Exception {
+    public User(String uname, String pass) throws Exception {
         userName = uname;
         passWord = pass;
     }
@@ -86,34 +86,44 @@ public class UserRegister {
     }
 
     public int Register() throws Exception{
-
+        Connection conn = ConnectionManager.getConnection();
         PreparedStatement pst = conn.prepareStatement(
                 "INSERT INTO user_register (user_name, email_id, pass_word) values (?, ?, ?)");
         pst.setString(1, userName);
         pst.setString(2, emailId);
         pst.setString(3, passWord);
-        return DatabaseManager.modify(pst);
+        int val = DatabaseManager.modify(pst);
+        conn.close();
+        return val;
     }
     public List<Map<String, Object>> queryByUserName() throws Exception{
+        Connection conn = ConnectionManager.getConnection();
         PreparedStatement pst = conn.prepareStatement(
                 "SELECT user_id, email_id from user_register where user_name=?"
         );
         pst.setString(1, userName);
-        return getQuery(pst);
+        List<Map<String, Object>> result =  getQuery(pst);
+        conn.close();
+        return result;
     }
     public List<Map<String, Object>> queryByEmailId() throws Exception{
+        Connection conn = ConnectionManager.getConnection();
         PreparedStatement pst = conn.prepareStatement(
-                "SELECT user_id, user_name from user_register where emai_lid=?"
+                "SELECT user_id, user_name from user_register where email_id=?"
         );
         pst.setString(1, emailId);
-        return getQuery(pst);
+        List<Map<String, Object>> result = getQuery(pst);
+        conn.close();
+        return result;
     }
 
     public List<Map<String, Object>> queryAll() throws Exception {
+        Connection conn = ConnectionManager.getConnection();
         PreparedStatement pst = conn.prepareStatement(
                 "SELECT user_id, user_name from user_register"
         );
-        return getQuery(pst);
+        List<Map<String, Object>> result = getQuery(pst);
+        return result;
     }
 
 

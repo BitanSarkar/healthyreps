@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-package com.sapient.healthyreps.login;
+package com.sapient.healthyreps.utils;
 
 import java.util.regex.*;
 

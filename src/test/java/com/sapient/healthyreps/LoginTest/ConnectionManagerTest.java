@@ -1,4 +1,4 @@
-package com.sapient.healthyreps.login;
+package com.sapient.healthyreps.LoginTest;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

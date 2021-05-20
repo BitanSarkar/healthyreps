@@ -12,3 +12,4 @@ bin
 target
 __app
 *.txt
+table.sql
