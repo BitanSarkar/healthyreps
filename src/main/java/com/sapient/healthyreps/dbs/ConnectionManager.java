@@ -19,7 +19,7 @@ public class ConnectionManager {
         OutputStream os = new FileOutputStream("src/main/resources/db.properties");
         p.setProperty("user", "root");
         p.setProperty("password", "toor");
-        p.setProperty("url", "jdbc:mysql://localhost/reps");
+        p.setProperty("url", "jdbc:mysql://172.23.16.1/reps");
         p.store(os, null);
         return "";
     }

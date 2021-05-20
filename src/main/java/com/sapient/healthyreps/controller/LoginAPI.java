@@ -29,11 +29,17 @@ public class LoginAPI {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/user")
-    public String logIn(@Valid @RequestBody User user) throws Exception {
+    public User validate(User user) throws Exception {
         Optional<User> _user = userRepository.findByUserName(user.getUserName());
         _user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + user.getUserName()));
-        User newUser = _user.orElse(null);
+        return _user.orElse(null);
+    }
+
+    @PostMapping("/user")
+    public String logIn(@Valid @RequestBody User user) throws Exception {
+//        Optional<User> _user = userRepository.findByUserName(user.getUserName());
+//        _user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + user.getUserName()));
+        User newUser = validate(user);
         if(newUser.getPassWord().equals(new String(Base64.getEncoder().encode(user.getPassWord().getBytes())))) {
             try {
                 newUser.setLoggedIn(true);
@@ -44,17 +50,35 @@ public class LoginAPI {
             }
         }
         else throw new PasswordMisMatchException("Wrong Password");
-//        return newUser.getPassWord() + " " + user.getPassWord();
         return "FAILED";
+    }
+
+    @PostMapping("/update")
+    public String upDatePass(@Valid @RequestBody User user) throws Exception {
+        User newUser = validate(user);
+        newUser.setPassWord(new String(Base64.getEncoder().encode(user.getPassWord().getBytes())));
+        try {
+//            newUser.setLoggedIn(true);
+            userRepository.save(newUser);
+            return "SUCCESS" + newUser.getUserName();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "FAILED";
+
+    }
+
+    @PostMapping("/recover")
+    public String recoverPass(@Valid @RequestBody User user) throws Exception {
+        User newUser = validate(user);
+        return new String(Base64.getDecoder().decode(newUser.getPassWord()));
     }
 
 
 
     @PostMapping("/logoutuser")
     public String logOut(@Valid @RequestBody User user) throws Exception {
-        Optional<User> _user = userRepository.findByUserName(user.getUserName());
-        _user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + user.getUserName()));
-        User newUser = _user.orElse(null);
+        User newUser = validate(user);
         try {
             newUser.setLoggedIn(false);
             userRepository.save(newUser);
